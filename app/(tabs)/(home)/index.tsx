@@ -1,15 +1,20 @@
-import TaskInput from "@/features/TaskFeature/components/TaskInput";
-import TaskList from "@/features/TaskFeature/components/TaskList";
-import { useTasks } from "@/features/TaskFeature/hooks/useTasks";
+import { TaskInput } from "@/features/TaskFeature/components/TaskInput";
+import { TaskList } from "@/features/TaskFeature/components/TaskList";
+import { useTasksController } from "@/features/TaskFeature/hooks/useTasksController";
 import { View, StyleSheet } from "react-native";
 
 export default function HomeScreen() {
-  const tasks = useTasks();
+  const tasksController = useTasksController();
 
   return (
     <View style={styles.container}>
-      <TaskInput onAddTask={tasks.add} onTaskAdded={tasks.fetch} />
-      <TaskList {...tasks} />
+      <TaskInput onAddTask={tasksController.add} />
+      <TaskList
+        tasks={tasksController.tasks}
+        loading={tasksController.loading}
+        onToggle={tasksController.toggleTask}
+        onDelete={tasksController.removeTask}
+      />
     </View>
   );
 }

@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { StyleSheet, TextInput, View, Button, Alert } from "react-native";
-import { createTask } from "../taskService";
 
 interface TaskInputProps {
   onAddTask: (task: string) => void;
-  onTaskAdded?: () => void;
 }
 
-const TaskInput: React.FC<TaskInputProps> = ({ onAddTask, onTaskAdded }) => {
+export const TaskInput: React.FC<TaskInputProps> = ({ onAddTask }) => {
   const [task, setTask] = useState("");
 
   const handleAddTask = async () => {
@@ -17,10 +15,6 @@ const TaskInput: React.FC<TaskInputProps> = ({ onAddTask, onTaskAdded }) => {
     }
     onAddTask(task);
     setTask("");
-    await createTask(task);
-    if (onTaskAdded) {
-      onTaskAdded();
-    }
   };
 
   return (
@@ -63,5 +57,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-export default TaskInput;

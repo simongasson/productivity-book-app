@@ -1,24 +1,29 @@
 import axios from "axios";
 
-const API_URL = `https://d2c3-105-246-80-226.ngrok-free.app/api/task`;
+const API_URL = `https://f02f-105-242-173-223.ngrok-free.app/api/task`;
 
-export interface TaskType {
-  id: number;
+export interface ITask {
+  id: string;
   title: string;
   isCompleted: boolean;
+  isDisabled?: boolean;
 }
 
-export const getTask = async (id: number): Promise<TaskType> => {
-  const response = await axios.get<TaskType>(`${API_URL}/${id}`);
+export const getTask = async (id: string): Promise<ITask> => {
+  const response = await axios.get<ITask>(`${API_URL}/${id}`);
   return response.data;
 };
 
-export const getTasks = async (): Promise<TaskType[]> => {
-  const response = await axios.get<TaskType[]>(API_URL);
+export const getTasks = async (): Promise<ITask[]> => {
+  const response = await axios.get<ITask[]>(API_URL);
   return response.data;
 };
 
-export const createTask = async (title: string): Promise<TaskType> => {
-  const response = await axios.post<TaskType>(API_URL, { title });
+export const createTask = async (title: string): Promise<ITask> => {
+  const response = await axios.post<ITask>(API_URL, { title });
   return response.data;
+};
+
+export const deleteTask = async (id: string): Promise<void> => {
+  await axios.delete(`${API_URL}/${id}`);
 };
