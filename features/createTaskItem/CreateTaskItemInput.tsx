@@ -1,32 +1,28 @@
-import React, { useState } from "react";
-import { StyleSheet, TextInput, View, Button, Alert } from "react-native";
+import React from "react";
+import { View, TextInput, Button, StyleSheet } from "react-native";
+import { CreateTaskItemCommand } from "./useCreateTaskItem";
 
-interface TaskInputProps {
-  onAddTask: (task: string) => void;
+export interface CreateTaskItemInputProps {
+  onChange: (name: keyof CreateTaskItemCommand, value: string) => void;
+  onSubmit: (data: CreateTaskItemCommand) => void;
+  data: CreateTaskItemCommand;
 }
 
-export const TaskInput: React.FC<TaskInputProps> = ({ onAddTask }) => {
-  const [task, setTask] = useState("");
-
-  const handleAddTask = async () => {
-    if (task.trim().length === 0) {
-      Alert.alert("Error", "Please enter a valid task.");
-      return;
-    }
-    onAddTask(task);
-    setTask("");
-  };
-
+export const CreateTaskItemInput: React.FC<CreateTaskItemInputProps> = ({
+  onChange,
+  onSubmit,
+  data,
+}) => {
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={styles.input}
         placeholder="Enter a new task"
         placeholderTextColor="#888"
-        value={task}
-        onChangeText={setTask}
+        value={data.title}
+        onChangeText={(text) => onChange("title", text)}
       />
-      <Button title="Add" onPress={handleAddTask} />
+      <Button title="Add" onPress={() => onSubmit(data)} />
     </View>
   );
 };
